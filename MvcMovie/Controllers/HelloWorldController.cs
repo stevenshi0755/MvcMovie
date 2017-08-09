@@ -16,7 +16,7 @@ namespace MvcMovie.Controllers
         //GET: /HelloWorld/Welcome/
         //public string Welcome()
         //{
-        //    return "This is the Welcome action method...";
+        //    return "This is the Welcome action method.......";
         //}
         public string Welcome(string name,int id = 1)
         {
