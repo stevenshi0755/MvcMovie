@@ -18,4 +18,12 @@ namespace MvcMovie.Models
     {
         public DbSet <Movie> Movies { get; set; }
     }
+    /*
+         我们将使用Movie类来表示数据库中的电影。 
+         Movie对象的每个实例将对应数据库表的一行，
+         Movie类的每个属性将对应表的一列。
+         MovieDBContext类代表Entity Framework的电影数据库类，
+         这个类负责在数据库中获取，存储，更新，处理 Movie 类的实例。
+         MovieDBContext继承自Entity Framework的 DbContext基类
+     */
 }
