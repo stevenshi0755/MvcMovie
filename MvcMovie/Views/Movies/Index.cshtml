@@ -29,7 +29,8 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(model => item.Title)
+            @*因为Model对象是强类型（IEnumerable<Movie>），每个循环中的 item 对象都是 Movie 类型的*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ReleaseDate)
