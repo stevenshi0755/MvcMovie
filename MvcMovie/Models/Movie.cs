@@ -16,7 +16,9 @@ namespace MvcMovie.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }
         public string Genre { get; set; }
+        [Range(typeof(decimal),"0.0000","10000.0000")]
         public decimal Price { get; set; }
+        public string Rating { get; set; }
     }
     public class MovieDBContext:DbContext
     {

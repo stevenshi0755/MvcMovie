@@ -15,25 +15,48 @@ namespace MvcMovie.Controllers
         private MovieDBContext db = new MovieDBContext();
 
         // GET: Movies
-        public ActionResult index(string id)
+        public ActionResult Index(string movieGenre,string searchString)
         {
-            string searchstring = id;
+            //string searchstring = id;
+            var GenreLst = new List<string>();
+
+            var GenreQry = from d in db.Movies
+                           orderby d.Genre
+                           select d.Genre;
+
+            GenreLst.AddRange(GenreQry.Distinct());
+
+            ViewBag.movieGenre = new SelectList(GenreLst);
+            /*
+                 ViewBag对象中存储了流派的数据列表。
+                 SelectList对象在ViewBag作为存储类数据（这样的电影流派），然后在下拉列表框中的数据访问类别，
+                 是一个典型的MVC applications的方法。
+             */
+
             var movies = from m in db.Movies
                          select m;
-            if (!string.IsNullOrEmpty(searchstring))
+
+            if (!string.IsNullOrEmpty(searchString))
             {
-                movies = movies.Where(s => s.Title.Contains(searchstring));
+                movies = movies.Where(s => s.Title.Contains(searchString));
+                //movies = movies.Where(s => s.Title == searchString);
+            }
+
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                //movies = movies.Where(x => x.Genre == movieGenre);
+                movies = movies.Where(y=>y.Genre == movieGenre);
             }
             //return view(db.movies.tolist());
 
 
             return View(movies);
         }
-        [HttpPost]
-        public string Index(FormCollection fc,string searchString)
-        {
-            return "<h3>From [HttpPost]Index:" + searchString + "</h3>";
-        }
+        //[HttpPost]
+        //public string Index(FormCollection fc,string searchString)
+        //{
+        //    return "<h3>From [HttpPost]Index:" + searchString + "</h3>";
+        //}
 
         //public ActionResult Index(string movieGenre,string searchString)
         //{
@@ -73,7 +96,7 @@ namespace MvcMovie.Controllers
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public ActionResult Create([Bind(Include = "ID,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +130,7 @@ namespace MvcMovie.Controllers
         [ValidateAntiForgeryToken]
         //ValidateAntiForgeryToken 特性，这个特性用来阻止伪造的请求
         //它和视图（Views\Movies\Edit.cshtml）中的 @Html.AntiForgeryToken() 是成对出现的
-        public ActionResult Edit([Bind(Include = "ID,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public ActionResult Edit([Bind(Include = "ID,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             //（Bind）属性是另一个重要安全机制，可以防止黑客攻击(从over-posting数据到你的模型
             if (ModelState.IsValid)
