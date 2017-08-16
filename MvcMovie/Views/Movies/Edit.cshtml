@@ -9,8 +9,8 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    
+    @Html.AntiForgeryToken() @*它和视图（Views\Movies\Edit.cshtml）中的 @Html.AntiForgeryToken() 是成对出现的*@
+
     <div class="form-horizontal">
         <h4>Movie</h4>
         <hr />
